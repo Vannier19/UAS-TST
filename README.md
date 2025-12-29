@@ -36,7 +36,7 @@ UAS-TST/
 
 ## Cara Menjalankan
 
-### Backend (Service B)
+### Backend
 
 1. Install dependensi:
    ```bash
@@ -63,7 +63,7 @@ docker run -p 9000:9000 loan-service
 
 ---
 
-## Dokumentasi API (Service B)
+## Dokumentasi API
 
 Base URL: `http://localhost:9000`
 
@@ -125,7 +125,7 @@ Cek status server.
 ## Fitur Frontend
 
 ### 1. Katalog Buku
-- Menampilkan daftar buku dari Service A
+- Menampilkan daftar buku dari API Teman saya
 - Card layout dengan informasi judul, pengarang, dan status
 - Badge status ketersediaan (Tersedia/Dipinjam)
 
@@ -147,7 +147,7 @@ Cek status server.
 - Auto-refresh data setelah peminjaman berhasil
 
 ### 5. Riwayat Peminjaman
-- Tabel daftar peminjaman dari Service B
+- Tabel daftar peminjaman dari BE saya
 - Informasi ID, nama peminjam, ID buku, tanggal, dan status
 - Auto-update setelah peminjaman baru
 
