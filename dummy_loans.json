@@ -1,0 +1,212 @@
+[
+  {
+    "id": 1,
+    "borrower_name": "Budi Santoso",
+    "book_id": 101,
+    "loan_date": "2025-12-01",
+    "status": "borrowed"
+  },
+  {
+    "id": 2,
+    "borrower_name": "Siti Aminah",
+    "book_id": 102,
+    "loan_date": "2025-12-01",
+    "status": "borrowed"
+  },
+  {
+    "id": 3,
+    "borrower_name": "Ahmad Fauzi",
+    "book_id": 103,
+    "loan_date": "2025-12-02",
+    "status": "returned"
+  },
+  {
+    "id": 4,
+    "borrower_name": "Dewi Lestari",
+    "book_id": 104,
+    "loan_date": "2025-12-02",
+    "status": "borrowed"
+  },
+  {
+    "id": 5,
+    "borrower_name": "Rahmat Hidayat",
+    "book_id": 105,
+    "loan_date": "2025-12-03",
+    "status": "borrowed"
+  },
+  {
+    "id": 6,
+    "borrower_name": "Putri Wijaya",
+    "book_id": 106,
+    "loan_date": "2025-12-03",
+    "status": "returned"
+  },
+  {
+    "id": 7,
+    "borrower_name": "Irfan Hakim",
+    "book_id": 107,
+    "loan_date": "2025-12-04",
+    "status": "borrowed"
+  },
+  {
+    "id": 8,
+    "borrower_name": "Maya Sari",
+    "book_id": 108,
+    "loan_date": "2025-12-04",
+    "status": "borrowed"
+  },
+  {
+    "id": 9,
+    "borrower_name": "Hendra Gunawan",
+    "book_id": 109,
+    "loan_date": "2025-12-05",
+    "status": "returned"
+  },
+  {
+    "id": 10,
+    "borrower_name": "Rina Kusuma",
+    "book_id": 110,
+    "loan_date": "2025-12-05",
+    "status": "borrowed"
+  },
+  {
+    "id": 11,
+    "borrower_name": "Yanto Prasetyo",
+    "book_id": 111,
+    "loan_date": "2025-11-28",
+    "status": "returned"
+  },
+  {
+    "id": 12,
+    "borrower_name": "Anita Permata",
+    "book_id": 112,
+    "loan_date": "2025-11-29",
+    "status": "borrowed"
+  },
+  {
+    "id": 13,
+    "borrower_name": "Doni Setiawan",
+    "book_id": 113,
+    "loan_date": "2025-11-30",
+    "status": "borrowed"
+  },
+  {
+    "id": 14,
+    "borrower_name": "Fitri Rahmawati",
+    "book_id": 114,
+    "loan_date": "2025-11-30",
+    "status": "returned"
+  },
+  {
+    "id": 15,
+    "borrower_name": "Bambang Sudrajat",
+    "book_id": 115,
+    "loan_date": "2025-12-01",
+    "status": "borrowed"
+  },
+  {
+    "id": 16,
+    "borrower_name": "Lina Marlina",
+    "book_id": 116,
+    "loan_date": "2025-12-02",
+    "status": "borrowed"
+  },
+  {
+    "id": 17,
+    "borrower_name": "Agus Salim",
+    "book_id": 117,
+    "loan_date": "2025-12-03",
+    "status": "returned"
+  },
+  {
+    "id": 18,
+    "borrower_name": "Eka Putri",
+    "book_id": 118,
+    "loan_date": "2025-12-04",
+    "status": "borrowed"
+  },
+  {
+    "id": 19,
+    "borrower_name": "Rudi Hartono",
+    "book_id": 119,
+    "loan_date": "2025-12-05",
+    "status": "borrowed"
+  },
+  {
+    "id": 20,
+    "borrower_name": "Sari Indah",
+    "book_id": 120,
+    "loan_date": "2025-12-06",
+    "status": "borrowed"
+  },
+  {
+    "id": 21,
+    "borrower_name": "Fajar Nugroho",
+    "book_id": 121,
+    "loan_date": "2025-11-25",
+    "status": "returned"
+  },
+  {
+    "id": 22,
+    "borrower_name": "Wulan Dari",
+    "book_id": 122,
+    "loan_date": "2025-11-26",
+    "status": "borrowed"
+  },
+  {
+    "id": 23,
+    "borrower_name": "Hadi Susanto",
+    "book_id": 123,
+    "loan_date": "2025-11-27",
+    "status": "borrowed"
+  },
+  {
+    "id": 24,
+    "borrower_name": "Ningsih Wati",
+    "book_id": 124,
+    "loan_date": "2025-11-28",
+    "status": "returned"
+  },
+  {
+    "id": 25,
+    "borrower_name": "Toni Wijaya",
+    "book_id": 125,
+    "loan_date": "2025-11-29",
+    "status": "borrowed"
+  },
+  {
+    "id": 26,
+    "borrower_name": "Dina Mariana",
+    "book_id": 126,
+    "loan_date": "2025-12-01",
+    "status": "borrowed"
+  },
+  {
+    "id": 27,
+    "borrower_name": "Rian Firmansyah",
+    "book_id": 127,
+    "loan_date": "2025-12-02",
+    "status": "returned"
+  },
+  {
+    "id": 28,
+    "borrower_name": "Vina Amalia",
+    "book_id": 128,
+    "loan_date": "2025-12-03",
+    "status": "borrowed"
+  },
+  {
+    "id": 29,
+    "borrower_name": "Andi Pratama",
+    "book_id": 129,
+    "loan_date": "2025-12-04",
+    "status": "borrowed"
+  },
+  {
+    "id": 30,
+    "borrower_name": "Mega Puspita",
+    "book_id": 130,
+    "loan_date": "2025-12-05",
+    "status": "returned"
+  }
+]

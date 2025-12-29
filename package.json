@@ -1,0 +1,11 @@
+{
+  "name": "loan-service",
+  "version": "1.0.0",
+  "description": "API peminjaman buku sederhana, tugas kuliah.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Mahasiswa ITB 18223028",
+  "license": "-"
+}

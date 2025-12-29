@@ -1,0 +1,22 @@
+@"
+# Node modules
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Docker
+.dockerignore
+"@ | Out-File -FilePath .gitignore -Encoding utf8
