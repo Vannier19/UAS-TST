@@ -1,6 +1,3 @@
-
-### Menggunakan Node.js:
-```
 # Sistem Perpustakaan Terintegrasi - Microservices
 
 **Dibuat oleh:** Stevan Einer Bonagabe - 18223028  
@@ -23,7 +20,7 @@ Sistem ini menggunakan arsitektur REST API dengan penyimpanan data in-memory unt
 ## Struktur Proyek
 
 ```
-UAS/
+UAS-TST/
 ├── FE/                    # Frontend Application
 │   ├── index.html         # Halaman utama
 │   ├── style.css          # Styling
@@ -71,9 +68,10 @@ docker run -p 9000:9000 loan-service
 Base URL: `http://localhost:9000`
 
 ### 1. GET /loans
+
 Mengambil semua data peminjaman.
 
-Response:
+**Response:**
 ```json
 [
   {
@@ -87,9 +85,10 @@ Response:
 ```
 
 ### 2. POST /loans
+
 Menambahkan peminjaman baru.
 
-Request:
+**Request:**
 ```json
 {
   "borrower_name": "Nama Peminjam",
@@ -97,7 +96,7 @@ Request:
 }
 ```
 
-Response:
+**Response:**
 ```json
 {
   "id": 11,
@@ -109,9 +108,10 @@ Response:
 ```
 
 ### 3. GET /health
+
 Cek status server.
 
-Response:
+**Response:**
 ```json
 {
   "status": "sehat",
