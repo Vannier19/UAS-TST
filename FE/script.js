@@ -3,7 +3,8 @@
 // ====================================
 const SERVICE_A_URL = "https://michael.tugastst.my.id"; // Service A - Inventory Buku
 const SERVICE_B_URL = "https://stevan.tugastst.my.id"; // Service B - Peminjaman
-const DEFAULT_HEADERS = { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' };
+// Avoid sending custom headers on simple GETs to reduce CORS preflight failures
+const DEFAULT_HEADERS = {};
 
 // ====================================
 // GLOBAL VARIABLES
@@ -31,7 +32,7 @@ async function fetchBooks() {
     container.innerHTML = '';
 
     try {
-        const response = await fetch(`${SERVICE_A_URL}/books`, { headers: DEFAULT_HEADERS });
+        const response = await fetch(`${SERVICE_A_URL}/books`);
         
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -205,7 +206,7 @@ async function fetchLoans() {
     tbody.innerHTML = '';
 
     try {
-        const response = await fetch(`${SERVICE_B_URL}/loans`, { headers: DEFAULT_HEADERS });
+        const response = await fetch(`${SERVICE_B_URL}/loans`);
         
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -368,7 +369,7 @@ async function addBook() {
     try {
         const res = await fetch(`${SERVICE_A_URL}/books`, {
             method: 'POST',
-            headers: DEFAULT_HEADERS,
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title, author })
         });
         if (!res.ok) {
@@ -387,8 +388,7 @@ async function deleteBook(id) {
     if (!confirm('Hapus buku ini?')) return;
     try {
         const res = await fetch(`${SERVICE_A_URL}/books/${id}`, {
-            method: 'DELETE',
-            headers: DEFAULT_HEADERS
+            method: 'DELETE'
         });
         if (!res.ok) {
             const err = await res.json().catch(()=>({ error: 'Gagal menghapus buku' }));

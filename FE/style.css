@@ -208,6 +208,20 @@ section {
 /* ====================================
    BUTTON STYLES
    ==================================== */
+/* Prominent add-button in header (top-right) */
+.header-actions .btn-add {
+    background: linear-gradient(90deg,#ff7a18,#ffb347);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(255,122,24,0.18);
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.header-actions .btn-add:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(255,122,24,0.22); }
+
 .card-actions { display:flex; gap:8px }
 .btn-borrow { flex:1; padding:8px 10px; border-radius:8px; border:1px solid var(--border); background:transparent; cursor:pointer }
 .btn-delete { background:transparent; border:1px solid var(--border); padding:8px 10px; border-radius:8px; color:#8a6b57 }
