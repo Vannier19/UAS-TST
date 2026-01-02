@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const url = require('url');
 
@@ -27,10 +28,47 @@ function enableCORS(res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
-// (Dummy) Cek buku ke Service A (tidak dipakai di demo ini)
+// Cek buku ke Service A menggunakan HTTPS
 async function validateBookAvailability(bookID) {
-  // Kosong, validasi asli di-comment
-  return true;
+  const targetHost = 'michael.tugastst.my.id';
+  const path = `/books/${bookID}`;
+  return new Promise((resolve) => {
+    const options = {
+      hostname: targetHost,
+      path: path,
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            const json = JSON.parse(data);
+            resolve(!!json.available);
+          } catch (e) {
+            resolve(false);
+          }
+        } else if (res.statusCode === 404) {
+          resolve(false);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+
+    req.on('error', (err) => {
+      console.error('Error validating book availability:', err.message);
+      resolve(false);
+    });
+
+    req.end();
+  });
 }
 
 // GET /loans - ambil semua data
@@ -61,7 +99,14 @@ function createLoanHandler(req, res) {
         res.end(JSON.stringify({ error: 'book_id yang valid harus diisi' }));
         return;
       }
-      // Validasi buku ke Service A di-skip
+      // Validasi buku ke Service A
+      const available = await validateBookAvailability(reqData.book_id);
+      if (!available) {
+        res.setHeader('Content-Type', 'application/json');
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: 'Buku tidak tersedia' }));
+        return;
+      }
       const newLoan = {
         id: nextID,
         borrower_name: reqData.borrower_name,
@@ -139,4 +184,5 @@ server.listen(PORT, () => {
   console.log('  POST /loans');
   console.log('  GET  /health');
   console.log('Data disimpan di memori, restart = data hilang');
+  console.log('Validasi buku akan dilakukan ke: michael.tugastst.my.id (HTTPS)');
 });

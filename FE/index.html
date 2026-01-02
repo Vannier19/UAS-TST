@@ -3,104 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Perpustakaan Terintegrasi</title>
+    <title>Perpustakaan Santai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <h1>📚 Sistem Perpustakaan Terintegrasi</h1>
-        <p>Tugas UAS II 3160 Teknologi Sistem Terintegrasi</p>
-        <p>Stevan Einer Bonagabbe - 18223028</p>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <h1>Perpustakaan Santai</h1>
+                <p class="subtitle">Koleksi kecil, suasana tenang</p>
+            </div>
+            <div class="header-actions">
+                <button id="btn-add-book" class="btn-add" onclick="openAddBookModal()">Tambah Buku</button>
+            </div>
+        </div>
     </header>
 
-    <!-- Main Container -->
     <main class="container">
-        <!-- Katalog Buku Section -->
-        <section class="section-books">
-            <div class="section-header">
-                <h2>📖 Katalog Buku</h2>
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="🔍 Cari buku berdasarkan judul atau pengarang..." oninput="searchBooks()">
-                    <button id="btn-clear-search" onclick="clearSearch()" style="display:none;">✕</button>
+        <section class="catalog">
+            <div class="catalog-head">
+                <div>
+                    <h2>Katalog Buku</h2>
+                    <p class="muted">Telusuri koleksi dan pinjam jika tersedia</p>
+                </div>
+                <div class="search-wrap">
+                    <input id="search-input" placeholder="Cari judul atau pengarang" oninput="searchBooks()">
+                    <button id="btn-clear-search" onclick="clearSearch()" style="display:none;">Bersihkan</button>
                 </div>
             </div>
-            
-            <!-- Filter Kategori -->
+
             <div class="category-filter">
                 <button class="category-btn active" onclick="filterCategory('all')">Semua</button>
-                <button class="category-btn" onclick="filterCategory('rekomendasi')">⭐ Rekomendasi</button>
-                <button class="category-btn" onclick="filterCategory('populer')">🔥 Populer</button>
-                <button class="category-btn" onclick="filterCategory('terbaru')">🆕 Terbaru</button>
+                <button class="category-btn" onclick="filterCategory('rekomendasi')">Rekomendasi</button>
+                <button class="category-btn" onclick="filterCategory('populer')">Populer</button>
+                <button class="category-btn" onclick="filterCategory('terbaru')">Terbaru</button>
             </div>
 
-            <div id="loading-books" class="loading">Memuat data buku...</div>
-            <div id="book-list" class="grid-books"></div>
+            <div id="loading-books" class="loading">Memuat buku...</div>
+            <div id="book-list" class="grid-books" aria-live="polite"></div>
         </section>
 
-        <!-- Riwayat Peminjaman Section -->
-        <section class="section-loans">
-            <h2>📋 Riwayat Peminjaman</h2>
+        <section class="loans">
+            <div class="loans-head">
+                <h2>Riwayat Peminjaman</h2>
+                <p class="muted">Rekam peminjaman terakhir</p>
+            </div>
             <div id="loading-loans" class="loading">Memuat riwayat...</div>
-            <div class="table-container">
+            <div class="table-wrap">
                 <table id="loan-table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nama Peminjam</th>
+                            <th>Nama</th>
                             <th>ID Buku</th>
-                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal</th>
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody id="loan-list">
-                        <!-- Data will be inserted here -->
-                    </tbody>
+                    <tbody id="loan-list"></tbody>
                 </table>
             </div>
         </section>
     </main>
 
-    <!-- Modal Form Peminjaman -->
+    <!-- Add Book Modal -->
+    <div id="modal-add" class="modal">
+        <div class="modal-content">
+            <button class="close" onclick="closeAddBookModal()">&times;</button>
+            <h3>Tambah Buku Baru</h3>
+            <div class="form-row">
+                <label>Judul</label>
+                <input id="input-new-title" placeholder="Masukkan judul">
+            </div>
+            <div class="form-row">
+                <label>Pengarang</label>
+                <input id="input-new-author" placeholder="Masukkan nama pengarang">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="addBook()">Simpan</button>
+                <button class="btn-secondary" onclick="closeAddBookModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Borrow Modal -->
     <div id="modal-borrow" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>📝 Form Peminjaman Buku</h3>
-            <div class="modal-book-info">
-                <p><strong>Judul:</strong> <span id="modal-book-title"></span></p>
-                <p><strong>ID Buku:</strong> <span id="modal-book-id-display"></span></p>
-            </div>
+            <button class="close" onclick="closeModal()">&times;</button>
+            <h3>Form Peminjaman</h3>
+            <p><strong>Judul:</strong> <span id="modal-book-title"></span></p>
+            <p><strong>ID Buku:</strong> <span id="modal-book-id-display"></span></p>
             <input type="hidden" id="input-book-id">
-            
-            <label for="input-borrower">Nama Peminjam:</label>
-            <input type="text" id="input-borrower" placeholder="Masukkan nama Anda..." required>
-            
-            <div class="modal-buttons">
-                <button onclick="submitLoan()" class="btn-primary">Konfirmasi Peminjaman</button>
-                <button onclick="closeModal()" class="btn-secondary">Batal</button>
+            <div class="form-row">
+                <label>Nama Peminjam</label>
+                <input id="input-borrower" placeholder="Nama lengkap">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="submitLoan()">Pinjam</button>
+                <button class="btn-secondary" onclick="closeModal()">Batal</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Sukses -->
-    <div id="modal-success" class="modal-notif">
-        <div class="notif-box">
-            <div class="notif-icon">✓</div>
-            <h3>Peminjaman Berhasil</h3>
-            <p id="success-message"></p>
-            <button onclick="closeSuccessModal()">OK</button>
-        </div>
-    </div>
-
-    <!-- Modal Peringatan -->
-    <div id="modal-warning" class="modal-notif">
-        <div class="notif-box warning">
-            <div class="notif-icon warning-icon">!</div>
-            <h3>Peringatan</h3>
-            <p id="warning-message"></p>
-            <button onclick="closeWarningModal()">OK</button>
-        </div>
-    </div>
+    <!-- Simple Notif Box -->
+    <div id="notif" class="notif" style="display:none;"></div>
 
     <script src="script.js"></script>
 </body>

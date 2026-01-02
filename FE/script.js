@@ -1,8 +1,9 @@
 // ====================================
 // KONFIGURASI API ENDPOINTS (HARDCODED)
 // ====================================
-const SERVICE_A_URL = "http://100.114.117.49:9001"; // Service A - Inventory Buku
-const SERVICE_B_URL = "http://100.114.117.49:9000"; // Service B - Peminjaman
+const SERVICE_A_URL = "https://michael.tugastst.my.id"; // Service A - Inventory Buku
+const SERVICE_B_URL = "https://stevan.tugastst.my.id"; // Service B - Peminjaman
+const DEFAULT_HEADERS = { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' };
 
 // ====================================
 // GLOBAL VARIABLES
@@ -14,7 +15,7 @@ let currentCategory = 'all'; // Kategori aktif
 // INISIALISASI - AUTO LOAD DATA
 // ====================================
 window.addEventListener('DOMContentLoaded', () => {
-    console.log('📚 Sistem Perpustakaan Terintegrasi - Loaded');
+    console.log('Sistem Perpustakaan Terintegrasi - Loaded');
     fetchBooks();
     fetchLoans();
 });
@@ -30,7 +31,7 @@ async function fetchBooks() {
     container.innerHTML = '';
 
     try {
-        const response = await fetch(`${SERVICE_A_URL}/books`);
+        const response = await fetch(`${SERVICE_A_URL}/books`, { headers: DEFAULT_HEADERS });
         
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -50,11 +51,11 @@ async function fetchBooks() {
         // Tampilkan sesuai kategori aktif
         displayBooks(allBooks);
 
-        console.log(`✅ Berhasil memuat ${books.length} buku`);
+        console.log(`Berhasil memuat ${books.length} buku`);
 
     } catch (error) {
         loading.style.display = 'none';
-        container.innerHTML = `<p class="error-state">❌ Gagal memuat data buku: ${error.message}</p>`;
+        container.innerHTML = `<p class="error-state">Gagal memuat data buku: ${error.message}</p>`;
         console.error('Error fetching books:', error);
     }
 }
@@ -123,26 +124,18 @@ function createBookCard(book) {
     const statusText = book.available ? 'Tersedia' : 'Dipinjam';
     const buttonDisabled = !book.available ? 'disabled' : '';
 
-    // Emoji kategori
-    let categoryEmoji = '';
-    if (book.category === 'rekomendasi') categoryEmoji = '⭐';
-    else if (book.category === 'populer') categoryEmoji = '🔥';
-    else if (book.category === 'terbaru') categoryEmoji = '🆕';
-
     card.innerHTML = `
         <div class="book-header">
-            <h3>${categoryEmoji} ${book.title}</h3>
-            <span class="badge ${statusClass}">${statusText}</span>
+            <h3>${book.title}</h3>
         </div>
-        <p class="book-author">📝 ${book.author}</p>
+        <p class="book-author">${book.author}</p>
         <p class="book-id">ID: ${book.id}</p>
-        <button 
-            class="btn-borrow" 
-            onclick="openBorrowModal(${book.id}, '${escapeHtml(book.title)}')"
-            ${buttonDisabled}
-        >
-            ${book.available ? '📚 Pinjam' : '🔒 Tidak Tersedia'}
-        </button>
+        <div class="card-actions">
+            <button class="btn-borrow" onclick="openBorrowModal(${book.id}, '${escapeHtml(book.title)}')" ${buttonDisabled}>${book.available ? 'Pinjam' : 'Tidak Tersedia'}</button>
+            <button class="btn-delete" onclick="deleteBook(${book.id})" title="Hapus buku">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18" stroke="#8a6b57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="#8a6b57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" stroke="#8a6b57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 11v6M14 11v6" stroke="#8a6b57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
     `;
 
     return card;
@@ -212,7 +205,7 @@ async function fetchLoans() {
     tbody.innerHTML = '';
 
     try {
-        const response = await fetch(`${SERVICE_B_URL}/loans`);
+        const response = await fetch(`${SERVICE_B_URL}/loans`, { headers: DEFAULT_HEADERS });
         
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -241,11 +234,11 @@ async function fetchLoans() {
             tbody.appendChild(row);
         });
 
-        console.log(`✅ Berhasil memuat ${loans.length} riwayat peminjaman`);
+        console.log(`Berhasil memuat ${loans.length} riwayat peminjaman`);
 
     } catch (error) {
         loading.style.display = 'none';
-        tbody.innerHTML = `<tr><td colspan="5" class="error-state">❌ Gagal memuat riwayat: ${error.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="error-state">Gagal memuat riwayat: ${error.message}</td></tr>`;
         console.error('Error fetching loans:', error);
     }
 }
@@ -361,3 +354,57 @@ function showWarningModal(message) {
 function closeWarningModal() {
     document.getElementById('modal-warning').style.display = 'none';
 }
+
+// =====================
+// BOOK CRUD (Service A)
+// =====================
+async function addBook() {
+    const title = document.getElementById('input-new-title').value.trim();
+    const author = document.getElementById('input-new-author').value.trim();
+    if (!title || !author) {
+        showNotif('Judul dan pengarang harus diisi');
+        return;
+    }
+    try {
+        const res = await fetch(`${SERVICE_A_URL}/books`, {
+            method: 'POST',
+            headers: DEFAULT_HEADERS,
+            body: JSON.stringify({ title, author })
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(()=>({ error: 'Gagal menambah buku' }));
+            throw new Error(err.error || 'Gagal menambah buku');
+        }
+        closeAddBookModal();
+        fetchBooks();
+        showNotif('Buku berhasil ditambahkan');
+    } catch (e) {
+        showNotif(e.message || 'Error');
+    }
+}
+
+async function deleteBook(id) {
+    if (!confirm('Hapus buku ini?')) return;
+    try {
+        const res = await fetch(`${SERVICE_A_URL}/books/${id}`, {
+            method: 'DELETE',
+            headers: DEFAULT_HEADERS
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(()=>({ error: 'Gagal menghapus buku' }));
+            throw new Error(err.error || 'Gagal menghapus buku');
+        }
+        fetchBooks();
+        showNotif('Buku dihapus');
+    } catch (e) {
+        showNotif(e.message || 'Error');
+    }
+}
+
+// =====================
+// UI Helpers
+// =====================
+function openAddBookModal() { document.getElementById('modal-add').style.display = 'flex'; }
+function closeAddBookModal() { document.getElementById('modal-add').style.display = 'none'; document.getElementById('input-new-title').value=''; document.getElementById('input-new-author').value=''; }
+
+function showNotif(msg, timeout=2500){ const n = document.getElementById('notif'); n.textContent = msg; n.style.display='block'; setTimeout(()=> n.style.display='none', timeout); }
